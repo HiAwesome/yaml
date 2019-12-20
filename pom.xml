@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>YamlProject</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <!-- 统一管理所有依赖的版本 -->
+    <properties>
+        <!-- 指定编码格式 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <snakeyaml.version>1.24</snakeyaml.version>
+        <lombok.version>1.18.10</lombok.version>
+        <slf4j.version>1.7.29</slf4j.version>
+
+        <maven.compiler.plugin.java.version>1.8</maven.compiler.plugin.java.version>
+        <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+        <maven-assembly-plugin.version>3.0.0</maven-assembly-plugin.version>
+
+        <!-- 便于格式化日志输出 -->
+        <lombok.scope>compile</lombok.scope>
+        <slf4j.scope>compile</slf4j.scope>
+    </properties>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
+        <!-- 20191220 最新版 1.25 下载不下来，暂时用 1.24 -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>${snakeyaml.version}</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>${lombok.scope}</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>${slf4j.scope}</scope>
+        </dependency>
+
+    </dependencies>
+
+    <!-- build 用来标识 Maven 项目在构建中的属性 -->
+    <!-- plugins 和 pluginManagement 的关系类似于 dependencies 和 dependencyManagement 的关系 -->
+    <build>
+
+        <plugins>
+
+            <!-- 声明编译器插件，在配置中指定 JDK 版本，在下一行网址中获取最新编译器插件的 version -->
+            <!-- https://maven.apache.org/plugins/maven-compiler-plugin/usage.html -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${maven.compiler.plugin.java.version}</source>
+                    <target>${maven.compiler.plugin.java.version}</target>
+                </configuration>
+            </plugin>
+
+            <!-- 声明 maven-assembly-plugin 的版本和 executions 信息，配置信息在子项目引用中补充 -->
+            <!-- 版本参考下面地址中 maven-assembly-plugin 的版本 -->
+            <!-- http://maven.apache.org/plugins/maven-assembly-plugin/plugin-management.html -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven-assembly-plugin.version}</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+
+</project>
